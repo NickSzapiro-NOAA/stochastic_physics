@@ -115,23 +115,20 @@ do ii = 2,row  !! Start on the second row.
                                 AG(pp,1) = IDX  !! Assign island number.
                                 cnt = cnt + 1  !! Increment member counter.
                             else
-                                goto 100 !! Stop search if one mismatch found.
+                                exit !! Stop search if one mismatch found.
                             endif
                         enddo
-100                     do mm = ii,-1,1  !! Start at current row, work up.
+                        search_old: do mm = ii,-1,1  !! Start at current row, work up.
                             do kk = 1,col
                                 if (AG(mm,kk) == idxx)then
                                     AG(mm,kk) = IDX !! Assign new isl. num.
                                     cnt = cnt + 1 !! Increment count.
                                     if (cnt > L(idxx))then
-                                        goto 101 !! Stop search do old islnds.
+                                        exit search_old !! Stop search do old islnds.
                                     endif
-101                             endif
+                                endif
                             enddo
-                            if (cnt > L(idxx))then
-                                goto 102 !! Stop search do old island numbers.
-102                         endif
-                        enddo
+                        enddo search_old
                     endif
                     AG(ii,jj+1) = IDX  !! Give RGHT the island number.
                     L(IDX) = L(IDX) +  cnt  !! Add to count.
